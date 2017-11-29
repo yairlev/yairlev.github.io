@@ -49,5 +49,6 @@ int main()
 {  
    std::thread push_t(push);
    std::thread pop_t(pop);
-   //push_t.join();
+   push_t.join();
+   pop_t.join();
 }
