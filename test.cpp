@@ -24,9 +24,9 @@ std::deque<Message> g_queue;
 void push()
 {
     while(1) {
-        std::lock_guard<std::mutex> lock(g_mutex);
         std::chrono::milliseconds elapsed(1000);
         std::this_thread::sleep_for(elapsed);
+        std::lock_guard<std::mutex> lock(g_mutex);        
         printf("pushing message\n");
         g_queue.push_back(Message { "message" });
         g_condition.notify_all();
@@ -36,7 +36,6 @@ void push()
 void pop()
 {
     while (1) {
-        
         std::unique_lock<std::mutex> lock(g_mutex);
         printf("waiting for message\n");
         g_condition.wait(lock, [] { return !g_queue.empty(); });
